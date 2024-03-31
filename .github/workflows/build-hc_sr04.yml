@@ -3,6 +3,11 @@ on:
   push:
     branches: ["main"]
     paths: ["gpio/hc_sr04/**"]
+  pull_request:
+    branches: ["main"]
+    paths: ["gpio/hc_sr04/**"]
+  schedule: 
+    - cron: "0 0 * * *"
   workflow_dispatch:
 jobs:
   ufbt-build-action:
@@ -15,15 +20,17 @@ jobs:
         uses: flipperdevices/flipperzero-ufbt-action@v0.1
         id: build-app
         with:
+          task: build
+          app-dir: "./gpio/hc_sr04/"
           sdk-channel: release
       - name: Upload app artifacts
         uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}-${{ steps.build-app.outputs.suffix }}
           path: ${{ steps.build-app.outputs.fap-artifacts }}
-      # You can remove this step if you don't want to check source code formatting
       - name: Lint sources
         uses: flipperdevices/flipperzero-ufbt-action@v0.1
         with:
           skip-setup: true
           task: lint
+          app-dir: "./gpio/hc_sr04/"
