@@ -2,7 +2,8 @@ name: "FAP: Build and lint - HC-SR04"
 on:
   push:
     branches: ["main"]
-    paths: ["gpio/hc_sr04/*"]
+    paths: ["gpio/hc_sr04/**"]
+  workflow_dispatch:
 jobs:
   ufbt-build-action:
     runs-on: ubuntu-latest
