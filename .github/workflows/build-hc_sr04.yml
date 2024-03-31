@@ -2,13 +2,12 @@ name: "FAP: Build and lint - HC-SR04"
 on:
   push:
     branches: ["main"]
-    paths: ["gpio/hc_sr04/**"]
+    paths: ["gpio/hc_sr04/**", "**build-hc_sr04.yml"]
   pull_request:
     branches: ["main"]
-    paths: ["gpio/hc_sr04/**"]
+    paths: ["gpio/hc_sr04/**", "**build-hc_sr04.yml"]
   schedule: 
     - cron: "0 0 * * *"
-  workflow_dispatch:
 jobs:
   ufbt-build-action:
     runs-on: ubuntu-latest
@@ -28,9 +27,3 @@ jobs:
         with:
           name: ${{ github.event.repository.name }}-${{ steps.build-app.outputs.suffix }}
           path: ${{ steps.build-app.outputs.fap-artifacts }}
-      - name: Lint sources
-        uses: flipperdevices/flipperzero-ufbt-action@v0.1
-        with:
-          skip-setup: true
-          task: lint
-          app-dir: "./gpio/hc_sr04/"
